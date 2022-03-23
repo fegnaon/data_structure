@@ -35,10 +35,10 @@ int main()
     {
         scanf("%d",&data);
         tree = Insert(tree,data);
-        // Pretraverse(tree);
-        // printf("\n");
-        // Intraverse(tree);
-        // printf("\n");
+        Pretraverse(tree);
+        printf("\n");
+        Intraverse(tree);
+        printf("\n");
     }
     printf("%d",tree->data);
 }
