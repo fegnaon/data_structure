@@ -1,3 +1,4 @@
+// TODO:é‡å†™
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,20 +53,20 @@ int main()
     scanf("%d",&N);
     Character refCharacters[N];
     for (int i = 0; i < N; ++i)
-    {   
+    {
         scanf("%s %d",c,&frequency);
         // printf("%c %d\n",c[0],frequency);
         refCharacters[i].character = c[0];
         refCharacters[i].frequency = frequency;
     }
-//µÃ³öÕıÈ·µÄ´ğ°¸
-    //´´½¨¶Ñ
+//å¾—å‡ºæ­£ç¡®çš„ç­”æ¡ˆ
+    //åˆ›å»ºå †
     MinHeap *heap = MinHeap_Init(N);
     for (int i = 0; i < N; ++i)
     {
         MinHeap_Insert(heap,Create_Node(refCharacters[i].frequency));
     }
-    //Éú³É¹ş·òÂüÊ÷
+    //ç”Ÿæˆå“ˆå¤«æ›¼æ ‘
     Node *pt,*ptl,*ptr;
     while (heap->Size > 1)
     {
@@ -76,7 +77,7 @@ int main()
         pt->right = ptr;
         MinHeap_Insert(heap,pt);
     }
-    //¼ÆËã×ÜºÍ
+    //è®¡ç®—æ€»å’Œ
     pt = MinHeap_Delete(heap);
     pt->len = 0;
     MakeLen(pt);
@@ -84,7 +85,7 @@ int main()
     Seq *seq = init_seq(N+1);
     in_seq(seq,pt);
     while (seq->head != seq->rear)
-    {   
+    {
         pt = out_seq(seq);
         if (pt->left){
             in_seq(seq,pt->left);
@@ -98,16 +99,16 @@ int main()
         }
     }
     del_seq(seq);
-//ÅĞ¶Ï´ğ°¸¶Ô´í
+//åˆ¤æ–­ç­”æ¡ˆå¯¹é”™
     int M;
     scanf("%d",&M);
     for (int i = 0; i < M; ++i)
     {
         int cost = 0,tag = 1;
         Character characters[N];
-        //¶ÁÈë´ğ°¸²¢¼ì²éÊÇ·ñÊÇÇ°×ºÂë
+        //è¯»å…¥ç­”æ¡ˆå¹¶æ£€æŸ¥æ˜¯å¦æ˜¯å‰ç¼€ç 
         for (int i = 0; i < N; ++i)
-        {   
+        {
             scanf("%s %s",c,s);
             if (IfAmbiguous(characters,i,s)){
                 tag = 0;
@@ -117,7 +118,7 @@ int main()
             characters[i].code = (char*)malloc( sizeof(int) * (strlen(s) + 1) );
             strcpy(characters[i].code,s);
         }
-        //¼ì²é×ÜÈ¨ÖØ
+        //æ£€æŸ¥æ€»æƒé‡
         for (int i = 0; i < N; ++i)
         {
             cost += characters[i].frequency * strlen(characters[i].code);
@@ -150,12 +151,12 @@ Seq* init_seq(int size)
     seq->rear = 0;
     seq->size = size;
     seq->tag = 0;
-    
+
     return seq;
 }
 
 int in_seq(Seq *seq,Node *data)
-{   
+{
     if (seq->tag && seq->rear == seq->head){
         printf("head: %d rear: %d\n",seq->head,seq->rear);
         printf("error: seq is full\n");
@@ -207,7 +208,7 @@ Node* Create_Node(int frequency)
 }
 
 MinHeap* MinHeap_Init(int size)
-{   
+{
     MinHeap *heap = (MinHeap*)malloc(sizeof(MinHeap));
     heap->Data = (Node**)malloc( (size + 1) * sizeof(Node*) );
     heap->Size = 0;
@@ -275,16 +276,16 @@ void MakeLen(Node *tree)
         tree->right->len = tree->len + 1;
         MakeLen(tree->right);
     }
-    
+
     return;
 }
 
 int IfAmbiguous(Character *characters,int len,char *s)
-{       
+{
     char str[100];
     int length = strlen(s);
     for (int i = 0; i < len; ++i)
-    {   
+    {
         strcpy(str,characters[i].code);
         str[length] = '\0';
         if (!strcmp(str,s)){
@@ -295,7 +296,7 @@ int IfAmbiguous(Character *characters,int len,char *s)
 }
 
 int FreqOfChar(Character *refcharacters,int len,char c)
-{   
+{
     for (int i = 0; i < len; ++i)
     {
         if (refcharacters[i].character == c){
