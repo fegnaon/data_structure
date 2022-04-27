@@ -7,33 +7,31 @@
 // #define MERGESORT_RECURSE
 // #define MERGESORT_NORECURSE
 
-typedef int ElementType;
-
-void sort(ElementType elements[],int N);
+void sort(int A[],int N);
 
 int main()
 {
     int N;
     scanf("%d",&N);
 
-    ElementType elements[N],e;
+    int A[N],e;
     for (int i = 0; i < N; ++i)
     {
         scanf("%d",&e);
-        elements[i] = e;
+        A[i] = e;
     }
-    sort(elements,N);
+    sort(A,N);
     for (int i = 0; i < N-1; ++i)
     {
-        printf("%d ",elements[i]);
+        printf("%d ",A[i]);
     }
-    printf("%d",elements[N-1]);
+    printf("%d",A[N-1]);
 
     return 0;
 }
 
 #ifdef BUBBLESORT
-void sort(ElementType elements[],int N)
+void sort(int A[],int N)
 {
     int tag,tmp;
     for (int i = N-1; i > 0; --i)
@@ -41,10 +39,10 @@ void sort(ElementType elements[],int N)
         tag = 1;
         for (int j = 0; j < i; ++j)
         {
-            if (elements[j] > elements[j+1]){
-                tmp = elements[j];
-                elements[j] = elements[j+1];
-                elements[j+1] = tmp;
+            if (A[j] > A[j+1]){
+                tmp = A[j];
+                A[j] = A[j+1];
+                A[j+1] = tmp;
                 tag = 0;
             }
         }
@@ -56,23 +54,23 @@ void sort(ElementType elements[],int N)
 }
 #endif
 #ifdef INSERTSORT
-void sort(ElementType elements[],int N)
+void sort(int A[],int N)
 {
     int tmp,i,j;
     for (i = 0; i < N; ++i)
     {
-        tmp = elements[i];
-        for (j = i-1; j > -1 && elements[j] > tmp; --j)
+        tmp = A[i];
+        for (j = i-1; j > -1 && A[j] > tmp; --j)
         {
-            elements[j+1] = elements[j];
+            A[j+1] = A[j];
         }
-        elements[j+1] = tmp;
+        A[j+1] = tmp;
     }
     return;
 }
 #endif
 #ifdef SHELLSORT
-void sort(ElementType elements[],int N)
+void sort(int A[],int N)
 {
     int i,j,k;
     for (i = 1,j = 2; j-1 < N; ++i,j *= 2);
@@ -88,12 +86,12 @@ void sort(ElementType elements[],int N)
         d = D[i];
         for (j = d; j < N; ++j)
         {
-            tmp = elements[j];
-            for (k = j; k >= d && elements[k-d] > tmp; k -= d)
+            tmp = A[j];
+            for (k = j; k >= d && A[k-d] > tmp; k -= d)
             {
-                elements[k] = elements[k-d];
+                A[k] = A[k-d];
             }
-            elements[k] = tmp;
+            A[k] = tmp;
         }
     }
     return;
@@ -103,26 +101,26 @@ void sort(ElementType elements[],int N)
 #define LS(i) (2*(i)+1)
 #define RS(i) (2*(i)+2)
 #define FA(i) (((i)+1)/2-1)
-void percolateDown(ElementType A[],int i,int N);
-void sort(ElementType elements[],int N)
+void percolateDown(int A[],int i,int N);
+void sort(int A[],int N)
 {
     int i,tmp;
     for (i = N/2; i >= 0; --i)
     {
-        percolateDown(elements,i,N);
+        percolateDown(A,i,N);
     }
 
     for (i = N; i > 1; --i)
     {
-        tmp = elements[0];
-        elements[0] = elements[i-1];
-        elements[i-1] = tmp;
+        tmp = A[0];
+        A[0] = A[i-1];
+        A[i-1] = tmp;
 
-        percolateDown(elements,0,i-1);
+        percolateDown(A,0,i-1);
     }
     return;
 }
-inline void percolateDown(ElementType A[],int i,int N)
+inline void percolateDown(int A[],int i,int N)
 {
     int tmp,maxson;
     tmp = A[i];
@@ -159,15 +157,15 @@ inline void percolateDown(ElementType A[],int i,int N)
 }
 #endif
 #ifdef MERGESORT_RECURSE
-void MergerSort(ElementType A[],ElementType tmpA[],int start,int end);
-void Merge(ElementType A[],ElementType tmpA[],int Lstart,int Rstart,int end);
-void sort(ElementType elements[],int N)
+void MergerSort(int A[],int tmpA[],int start,int end);
+void Merge(int A[],int tmpA[],int Lstart,int Rstart,int end);
+void sort(int A[],int N)
 {
     int tmpA[N];
-    MergerSort(elements,tmpA,0,N-1);
+    MergerSort(A,tmpA,0,N-1);
     return;
 }
-void MergerSort(ElementType A[],ElementType tmpA[],int start,int end)
+void MergerSort(int A[],int tmpA[],int start,int end)
 {
     int center = (start + end) / 2;
     if (start < end){
@@ -177,7 +175,7 @@ void MergerSort(ElementType A[],ElementType tmpA[],int start,int end)
     }
     return;
 }
-void Merge(ElementType A[],ElementType tmpA[],int Lstart,int Rstart,int end)
+void Merge(int A[],int tmpA[],int Lstart,int Rstart,int end)
 {
     int L = Lstart,R = Rstart,tmp = Lstart;
     while (L < Rstart && R <= end)
@@ -195,28 +193,28 @@ void Merge(ElementType A[],ElementType tmpA[],int Lstart,int Rstart,int end)
 }
 #endif
 #ifdef MERGESORT_NORECURSE
-void merge(ElementType A[],ElementType tmpA[],int start,int length,int N);
-void sort(ElementType elements[],int N)
+void merge(int A[],int tmpA[],int start,int length,int N);
+void sort(int A[],int N)
 {
     int tmpA[N],length = 1,i;
     while(length < N)
     {
         for (i = 0; i <= N - length * 2; i += length * 2)
         {
-            merge(elements,tmpA,i,length,N);
+            merge(A,tmpA,i,length,N);
         }
-        merge(elements,tmpA,i,length,N);
+        merge(A,tmpA,i,length,N);
         length *= 2;
         for (i = 0; i <= N - length * 2; i += length * 2)
         {
-            merge(tmpA,elements,i,length,N);
+            merge(tmpA,A,i,length,N);
         }
-        merge(tmpA,elements,i,length,N);
+        merge(tmpA,A,i,length,N);
         length *= 2;
     }
     return;
 }
-void merge(ElementType A[],ElementType tmpA[],int start,int length,int N)
+void merge(int A[],int tmpA[],int start,int length,int N)
 {
     if (start >= N){
         return;
